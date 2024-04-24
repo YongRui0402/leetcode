@@ -1,21 +1,18 @@
 class Solution {
 public:
     int tribonacci(int n) {
-        int t0=0,t1=1,t2=1;
+        
         if(n==0)
             return 0;
         else if(n==1||n==2)
             return 1;
         else{
-            int t3=t0+t1+t2;
-            for(int i=0;i<n-3;i++){
-                t0=t1;
-                t1=t2;
-                t2=t3;
-                t3=t0+t1+t2;
+            vector<int> adj(n+1);
+            adj[0]=0,adj[1]=1,adj[2]=1;
+            for(int i=3;i<=n;i++){
+                adj[i]=adj[i-1]+adj[i-2]+adj[i-3];
             }
-            return t3;
-
+            return adj[n];
         }
         
     }
