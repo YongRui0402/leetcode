@@ -1,22 +1,19 @@
 class Solution {
 public:
     int longestIdealString(string s, int k) {
-        map<char,int> charlenMap;
-        int ans=0;
-        for(int i=0;i<26;i++)
-            charlenMap.insert({'a'+i,0});
+        int charlenMap[26] = {0};
+        int ans = 0;
 
         for(int i=s.length()-1;i>=0;i--){
-
-            int maxlen = 0;
-            
-            for(int j=max((int)'a',s[i]-k);j<=min((int)'z',s[i]+k);j++){
-                if(charlenMap[(char)j]>maxlen){
-                    maxlen=charlenMap[(char)j];
+            int maxlen = 0,start=max(s[i]-'a'-k,0),end=min(s[i]-'a'+k,25);
+            for(int j=start;j<=end;j++){
+                if(charlenMap[j]>maxlen){
+                    maxlen=charlenMap[j];
                 }
             }
-            charlenMap[s[i]]=maxlen+1;
-            ans=max(ans,maxlen+1);
+            charlenMap[s[i]-'a'] = maxlen+1;
+            if(maxlen+1>ans)
+                ans = max(ans,maxlen+1);
         }
         return ans;
     }
