@@ -1,18 +1,6 @@
 class Solution {
     int ring_size;
     unordered_map<char,vector<int>> mp;
-    int clockwise(int curr, int new_pos){
-        if(new_pos >= curr){
-            return new_pos-curr;
-        }
-        return ring_size - (curr - new_pos);
-    }
-    int anti_clockwise(int curr, int new_pos){
-        if(curr >= new_pos){
-            return curr - new_pos;
-        }
-        return ring_size - (new_pos - curr);
-    }
     int solve(string &key, int idx, int pos, vector<vector<int>>& dp){
         if(idx == key.size()){
             return 0; //end of key
@@ -27,10 +15,14 @@ class Solution {
         for(int i = 0; i < mp[key_value].size(); i++){
             int new_pos = mp[key_value][i];
             int taken = solve(key,idx+1,new_pos,dp);
-            //clockwise
-            steps = min(steps,1+clockwise(pos,new_pos)+taken);
-            //anticlockwise
-            steps = min(steps,1+anti_clockwise(pos,new_pos)+taken);
+            
+            int dis = pos-new_pos,sqg_flag=(pos>new_pos)?1:-1;
+
+            
+            if(dis*sqg_flag*2<ring_size) //clockwise
+                steps = min(steps,1+dis*sqg_flag+taken);
+            else//anticlockwise
+                steps = min(steps,1+ring_size-dis*sqg_flag+taken);
         }
         return dp[idx][pos] = steps;
     }
