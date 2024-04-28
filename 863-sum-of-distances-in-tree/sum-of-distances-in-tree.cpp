@@ -29,8 +29,9 @@ public:
         dfs(0, -1);
         dfs2(0, -1);
         vector<int> res;
+        res.reserve(n);
         for(int i = 0; i < n; i++){
-            res.push_back(ans[i]);
+            res.emplace_back(ans[i]);
         }
         return res;
     }
